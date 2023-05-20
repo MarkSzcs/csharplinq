@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+	
+	<viewmode>normal</viewmode>
+	
+	<schedule>
+		<screening>
+			<title>American Psycho</title>
+			<author>Mary Harron</author>
+			<actors>
+				<name>Christian Bale</name>
+			</actors>
+			<length>120</length>
+			
+			<room>1</room>
+			<playdate>2023. 05. 20</playdate>
+			<playtime>13:00</playtime>
+		</screening>
+		
+	</schedule>
+	
+	
+	<rooms>
+		<room>
+			<name>1</name>
+			<rows>5</rows>
+			<cols>5</cols>
+		</room>
+	</rooms>
+	
+	
+	<orders>
+		<order>
+			<id>1</id>
+			<room>1</room>
+			<seats>
+				<row>1</row>
+				<col>1</col>
+			</seats>
+		</order>
+
+	</orders>
+	
+</config>
+
