@@ -53,6 +53,7 @@
             titleCBox.Name = "titleCBox";
             titleCBox.Size = new Size(163, 23);
             titleCBox.TabIndex = 3;
+            titleCBox.SelectedIndexChanged += titleCBox_SelectedIndexChanged;
             // 
             // dateCBox
             // 

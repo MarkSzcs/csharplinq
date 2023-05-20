@@ -5,6 +5,7 @@
 	
 	<schedule>
 		<screening>
+			<id>1</id>
 			<title>American Psycho</title>
 			<author>Mary Harron</author>
 			<actors>
