@@ -4,11 +4,12 @@ using System.Xml.Linq;
 
 namespace Cinema
 {
-    //missing: only show movies in combobox that are playing in the selected day
     public partial class Form1 : Form
     {
         private readonly DateTime DAYTODAY = DateTime.Today;
         private readonly DateTime DAYTOMORROW = DateTime.Today.AddDays(1);
+        private readonly bool ISADMIN = XmlHandler.IsViewModeAdmin();
+        private readonly string DEFAULTADMINCBOXTEXT = "ADD AS NEW";
         public Form1()
         {
             InitializeComponent();
@@ -16,19 +17,21 @@ namespace Cinema
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-
-            string viewMode = XmlHandler.ReadElementValue("viewmode");
-            if (viewMode == "admin")
+            if (!ISADMIN)
             {
-                //
+                adminPlaytimeTBox.Enabled = false;
+                adminRoomTBox.Enabled = false;
+                admonPlaydateTBox.Enabled = false;
+                adminLengthTBox.Enabled = false;
+                adminDirectorTBox.Enabled = false;
+                adminTitleTBox.Enabled = false;
+                adminAddMovieButton.Enabled = false;
+                adminModyfyCBox.Enabled = false;
+                label11.ForeColor = Color.Red;
             }
             else
             {
-
-                // Hide admin buttons
-                //adminBtn.Visible = false;
-                //adminBtn.Enabled = false;
+                adminModyfyCBox.SelectedItem = DEFAULTADMINCBOXTEXT;
             }
             AppendDefaultValuesToCBoxes();
         }
@@ -49,7 +52,14 @@ namespace Cinema
                     {
                         foreach (XElement elem in xe.Parent.Descendants())
                         {
-                            if (elem.Name != "id")
+                            if (!ISADMIN)
+                            {
+                                if (elem.Name != "id")
+                                {
+                                    listBox1.Items.Add($"{elem.Name} : {elem.Value}");
+                                }
+                            }
+                            else
                             {
                                 listBox1.Items.Add($"{elem.Name} : {elem.Value}");
                             }
@@ -64,7 +74,7 @@ namespace Cinema
             listBox1.Items.Clear();
 
             IEnumerable<XElement> schedule = XmlHandler.ReadDescendants("schedule").Descendants();
-            string selectedDate = dateCBox.SelectedItem.ToString(); // Assuming dateCBox is the ComboBox containing selected date
+            string selectedDate = dateCBox.SelectedItem.ToString(); 
 
             if (selectedDate != null)
             {
@@ -75,7 +85,14 @@ namespace Cinema
                     {
                         foreach (XElement elem in xe.Parent.Descendants())
                         {
-                            if (elem.Name != "id")
+                            if (!ISADMIN)
+                            {
+                                if (elem.Name != "id")
+                                {
+                                    listBox1.Items.Add($"{elem.Name} : {elem.Value}");
+                                }
+                            }
+                            else
                             {
                                 listBox1.Items.Add($"{elem.Name} : {elem.Value}");
                             }
@@ -87,23 +104,49 @@ namespace Cinema
 
         private void AppendDefaultValuesToCBoxes()
         {
-
+            titleCBox.Items.Clear();
+            dateCBox.Items.Clear();
+            timeCBox.Items.Clear();
+            listBox1.Items.Clear();
             IEnumerable<XElement> playDates = XmlHandler.ReadDescendants("playdate");
             IEnumerable<XElement> playTimes = XmlHandler.ReadDescendants("playtime");
             IEnumerable<XElement> titles = XmlHandler.ReadDescendants("title");
             foreach (var item in playDates)
             {
-                dateCBox.Items.Add(item.Value);
+                if (!dateCBox.Items.Contains(item.Value))
+                {
+                    dateCBox.Items.Add(item.Value);
+                }
             }
             foreach (var item in titles)
             {
-                titleCBox.Items.Add(item.Value);
+                if (!titleCBox.Items.Contains(item.Value))
+                {
+                    titleCBox.Items.Add(item.Value);
+                }
             }
             foreach (var item in playTimes)
             {
-                timeCBox.Items.Add(item.Value);
+                if (!timeCBox.Items.Contains(item.Value))
+                {
+                    timeCBox.Items.Add(item.Value);
+                }
             }
-
+            if (ISADMIN)
+            {
+                IEnumerable<XElement> scheduled = XmlHandler.ReadDescendants("screening");
+                foreach (var item in scheduled)
+                {
+                    if (!adminModyfyCBox.Items.Contains(item.ToString()))
+                    {
+                        adminModyfyCBox.Items.Add(item.ToString());
+                    }
+                    //else
+                    //{
+                    //    throw new Exception("Duplicate data (id) in schedule!");
+                    //}
+                }
+            }
         }
 
         private void titleCBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -117,6 +160,81 @@ namespace Cinema
         private void dateCBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             HandleDateChange();
+        }
+
+        private void adminModyfyCBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void adminAddMovieButton_Click(object sender, EventArgs e)
+        {
+            if (adminModyfyCBox.SelectedItem.ToString() == DEFAULTADMINCBOXTEXT)
+            {
+                AddNewMovie();
+            }
+            else
+            {
+                XElement movieToReplace = XElement.Parse(adminModyfyCBox.SelectedItem.ToString());
+                if(movieToReplace != null)
+                {
+                    ModifyMovie(movieToReplace);
+                }
+                else
+                {
+                    throw new Exception("Parsing wont work!");
+                }
+            }
+        }
+
+        private void ModifyMovie(XElement movieToReplace)
+        {
+            if(adminModyfyCBox.SelectedItem.ToString() != DEFAULTADMINCBOXTEXT)
+            {
+                string selectedId = adminModyfyCBox.SelectedItem.ToString().Split("<id>")[1].Split("</id>")[0];
+                string selectedTitle = adminTitleTBox.Text;
+                string selectedDirector = adminDirectorTBox.Text;
+                string selectedLength = adminLengthTBox.Text;
+                string selectedPlaydate = admonPlaydateTBox.Text;
+                string selectedPlaytime = adminPlaytimeTBox.Text;
+                string oldActors = adminModyfyCBox.SelectedItem.ToString().Split("<actors>")[1].Split("</actors")[0];
+                string selectedRoom = adminRoomTBox.Text;
+
+                if 
+                (
+                    selectedTitle != null 
+                    && 
+                    selectedDirector != null 
+                    && 
+                    selectedLength != null 
+                    && 
+                    selectedPlaydate != null 
+                    && 
+                    selectedPlaytime != null 
+                    && 
+                    selectedRoom != null
+                )
+                {
+                    string newMovie = $"<screening><id>{selectedId}</id><title>{selectedTitle}</title><director>{selectedDirector}</director><actors>{oldActors}</actors><length>{selectedLength}</length><playdate>{selectedPlaydate}</playdate><playtime>{selectedPlaytime}</playtime><room>{selectedRoom}</room></screening>";
+                    XElement movie = XElement.Parse(newMovie);
+                    XmlHandler.ModifyElement(int.Parse(selectedId), movie);
+                    MessageBox.Show("Movie modified!");
+                    AppendDefaultValuesToCBoxes();
+                }
+                else
+                {
+                    MessageBox.Show("Please fill out all fields!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a movie to modify!");
+            }
+        }
+
+        private void AddNewMovie()
+        {
+            throw new NotImplementedException();
         }
     }
 }

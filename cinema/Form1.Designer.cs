@@ -37,7 +37,22 @@
             label3 = new Label();
             timeCBox = new ComboBox();
             label1 = new Label();
-            modifyButton = new Button();
+            label4 = new Label();
+            label5 = new Label();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            label9 = new Label();
+            adminPlaytimeTBox = new TextBox();
+            adminRoomTBox = new TextBox();
+            admonPlaydateTBox = new TextBox();
+            adminLengthTBox = new TextBox();
+            adminDirectorTBox = new TextBox();
+            adminTitleTBox = new TextBox();
+            adminAddMovieButton = new Button();
+            label10 = new Label();
+            adminModyfyCBox = new ComboBox();
+            label11 = new Label();
             SuspendLayout();
             // 
             // orderButton
@@ -122,21 +137,161 @@
             label1.TabIndex = 11;
             label1.Text = "Select a screen time";
             // 
-            // modifyButton
+            // label4
             // 
-            modifyButton.Location = new Point(12, 439);
-            modifyButton.Name = "modifyButton";
-            modifyButton.Size = new Size(254, 23);
-            modifyButton.TabIndex = 12;
-            modifyButton.Text = "button1";
-            modifyButton.UseVisualStyleBackColor = true;
+            label4.AutoSize = true;
+            label4.Location = new Point(287, 335);
+            label4.Name = "label4";
+            label4.Size = new Size(58, 15);
+            label4.TabIndex = 18;
+            label4.Text = "Play Time";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(287, 291);
+            label5.Name = "label5";
+            label5.Size = new Size(56, 15);
+            label5.TabIndex = 19;
+            label5.Text = "Play Date";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(287, 247);
+            label6.Name = "label6";
+            label6.Size = new Size(39, 15);
+            label6.TabIndex = 20;
+            label6.Text = "Room";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(287, 203);
+            label7.Name = "label7";
+            label7.Size = new Size(44, 15);
+            label7.TabIndex = 21;
+            label7.Text = "Length";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(287, 159);
+            label8.Name = "label8";
+            label8.Size = new Size(49, 15);
+            label8.TabIndex = 22;
+            label8.Text = "Director";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(287, 115);
+            label9.Name = "label9";
+            label9.Size = new Size(29, 15);
+            label9.TabIndex = 23;
+            label9.Text = "Title";
+            // 
+            // adminPlaytimeTBox
+            // 
+            adminPlaytimeTBox.Location = new Point(287, 353);
+            adminPlaytimeTBox.Name = "adminPlaytimeTBox";
+            adminPlaytimeTBox.Size = new Size(241, 23);
+            adminPlaytimeTBox.TabIndex = 24;
+            // 
+            // adminRoomTBox
+            // 
+            adminRoomTBox.Location = new Point(287, 265);
+            adminRoomTBox.Name = "adminRoomTBox";
+            adminRoomTBox.Size = new Size(241, 23);
+            adminRoomTBox.TabIndex = 25;
+            // 
+            // admonPlaydateTBox
+            // 
+            admonPlaydateTBox.Location = new Point(287, 309);
+            admonPlaydateTBox.Name = "admonPlaydateTBox";
+            admonPlaydateTBox.Size = new Size(241, 23);
+            admonPlaydateTBox.TabIndex = 26;
+            // 
+            // adminLengthTBox
+            // 
+            adminLengthTBox.Location = new Point(287, 221);
+            adminLengthTBox.Name = "adminLengthTBox";
+            adminLengthTBox.Size = new Size(241, 23);
+            adminLengthTBox.TabIndex = 27;
+            // 
+            // adminDirectorTBox
+            // 
+            adminDirectorTBox.Location = new Point(287, 177);
+            adminDirectorTBox.Name = "adminDirectorTBox";
+            adminDirectorTBox.Size = new Size(241, 23);
+            adminDirectorTBox.TabIndex = 28;
+            // 
+            // adminTitleTBox
+            // 
+            adminTitleTBox.Location = new Point(287, 132);
+            adminTitleTBox.Name = "adminTitleTBox";
+            adminTitleTBox.Size = new Size(241, 23);
+            adminTitleTBox.TabIndex = 29;
+            // 
+            // adminAddMovieButton
+            // 
+            adminAddMovieButton.Location = new Point(287, 382);
+            adminAddMovieButton.Name = "adminAddMovieButton";
+            adminAddMovieButton.Size = new Size(241, 23);
+            adminAddMovieButton.TabIndex = 30;
+            adminAddMovieButton.Text = "Add Movie";
+            adminAddMovieButton.UseVisualStyleBackColor = true;
+            adminAddMovieButton.Click += adminAddMovieButton_Click;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(287, 68);
+            label10.Name = "label10";
+            label10.Size = new Size(138, 15);
+            label10.TabIndex = 32;
+            label10.Text = "Select a movie to modify";
+            // 
+            // adminModyfyCBox
+            // 
+            adminModyfyCBox.FormattingEnabled = true;
+            adminModyfyCBox.Location = new Point(287, 86);
+            adminModyfyCBox.Name = "adminModyfyCBox";
+            adminModyfyCBox.Size = new Size(241, 23);
+            adminModyfyCBox.TabIndex = 31;
+            adminModyfyCBox.SelectedIndexChanged += adminModyfyCBox_SelectedIndexChanged;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Font = new Font("Segoe UI", 20F, FontStyle.Regular, GraphicsUnit.Point);
+            label11.Location = new Point(460, 28);
+            label11.Name = "label11";
+            label11.Size = new Size(157, 37);
+            label11.TabIndex = 33;
+            label11.Text = "Admin Only";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(734, 504);
-            Controls.Add(modifyButton);
+            ClientSize = new Size(867, 445);
+            Controls.Add(label11);
+            Controls.Add(label10);
+            Controls.Add(adminModyfyCBox);
+            Controls.Add(adminAddMovieButton);
+            Controls.Add(adminTitleTBox);
+            Controls.Add(adminDirectorTBox);
+            Controls.Add(adminLengthTBox);
+            Controls.Add(admonPlaydateTBox);
+            Controls.Add(adminRoomTBox);
+            Controls.Add(adminPlaytimeTBox);
+            Controls.Add(label9);
+            Controls.Add(label8);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(label4);
             Controls.Add(label1);
             Controls.Add(timeCBox);
             Controls.Add(label3);
@@ -164,6 +319,21 @@
         private Label label3;
         private ComboBox timeCBox;
         private Label label1;
-        private Button modifyButton;
+        private Label label4;
+        private Label label5;
+        private Label label6;
+        private Label label7;
+        private Label label8;
+        private Label label9;
+        private TextBox adminPlaytimeTBox;
+        private TextBox adminRoomTBox;
+        private TextBox admonPlaydateTBox;
+        private TextBox adminLengthTBox;
+        private TextBox adminDirectorTBox;
+        private TextBox adminTitleTBox;
+        private Button adminAddMovieButton;
+        private Label label10;
+        private ComboBox adminModyfyCBox;
+        private Label label11;
     }
 }
