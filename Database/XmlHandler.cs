@@ -16,6 +16,11 @@ namespace Cinema
         {
             XMLTREE = XElement.Load("Config.xml");
         }
+
+        public static bool IsViewModeAdmin()
+        {
+            return XMLTREE.Element("viewmode").Value == "Admin" || XMLTREE.Element("viewmode").Value == "admin";
+        }
         public static string ReadElementValue(string elementName) 
         {
             XElement? elem = XMLTREE.Element(elementName);
@@ -31,9 +36,8 @@ namespace Cinema
 
         public static IEnumerable<XElement> ReadDescendants(string elementName)
         {
-            IEnumerable<XElement> elements = from element in XMLTREE.Descendants(elementName) select element;
+            IEnumerable<XElement> elements = XMLTREE.Descendants(elementName);
             return elements;
-
         }
 
         public static void WriteElement(XElement element)

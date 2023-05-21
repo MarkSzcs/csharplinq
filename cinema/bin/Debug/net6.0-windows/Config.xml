@@ -7,23 +7,47 @@
 		<screening>
 			<id>1</id>
 			<title>American Psycho</title>
-			<author>Mary Harron</author>
-			<actors>
-				<name>Christian Bale</name>
-			</actors>
+			<director>Mary Harron</director>
+			<actors>Christian Bale</actors>
 			<length>120</length>
 			
 			<room>1</room>
 			<playdate>2023. 05. 20</playdate>
 			<playtime>13:00</playtime>
 		</screening>
-		
+		<screening>
+			<id>2</id>
+			<title>Shutter Island</title>
+			<director>Martin Scorsese</director>
+			<actors>Leonardo DiCaprio</actors>
+			<length>120</length>
+
+			<room>1</room>
+			<playdate>2023. 05. 20</playdate>
+			<playtime>10:00</playtime>
+		</screening>
+		<screening>
+			<id>3</id>
+			<title>Inception</title>
+			<director>Christopher Nolan</director>
+			<actors>Leonardo DiCaprio</actors>
+			<length>130</length>
+
+			<room>2</room>
+			<playdate>2023. 05. 22</playdate>
+			<playtime>15:00</playtime>
+		</screening>
 	</schedule>
 	
 	
 	<rooms>
 		<room>
 			<name>1</name>
+			<rows>5</rows>
+			<cols>5</cols>
+		</room>
+		<room>
+			<name>2</name>
 			<rows>5</rows>
 			<cols>5</cols>
 		</room>
@@ -34,9 +58,37 @@
 		<order>
 			<id>1</id>
 			<room>1</room>
+			<movieid>1</movieid>
 			<seats>
-				<row>1</row>
-				<col>1</col>
+				<row>3</row>
+				<col>3</col>
+			</seats>
+		</order>
+		<order>
+			<id>2</id>
+			<room>2</room>
+			<movieid>2</movieid>
+			<seats>
+				<seat>
+					<row>2</row>
+					<col>3</col>
+				</seat>
+				<seat>
+					<row>2</row>
+					<col>2</col>
+				</seat>
+				<seat>
+					<col>4</col>
+					<row>3</row>
+				</seat>
+				<seat>
+					<row>2</row>
+					<col>4</col>
+				</seat>
+				<seat>
+					<row>3</row>
+					<col>3</col>
+				</seat>
 			</seats>
 		</order>
 
