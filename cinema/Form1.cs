@@ -31,6 +31,7 @@ namespace Cinema
             }
             else
             {
+                adminModyfyCBox.Items.Add(DEFAULTADMINCBOXTEXT);
                 adminModyfyCBox.SelectedItem = DEFAULTADMINCBOXTEXT;
             }
             AppendDefaultValuesToCBoxes();
@@ -234,7 +235,41 @@ namespace Cinema
 
         private void AddNewMovie()
         {
-            throw new NotImplementedException();
+            string selectedTitle = adminTitleTBox.Text;
+            string selectedDirector = adminDirectorTBox.Text;
+            string selectedLength = adminLengthTBox.Text;
+            string selectedPlaydate = admonPlaydateTBox.Text;
+            string selectedPlaytime = adminPlaytimeTBox.Text;
+            string selectedActors = "";
+            string selectedRoom = adminRoomTBox.Text;
+
+            if 
+            (
+                selectedTitle != null 
+                && 
+                selectedDirector != null 
+                && 
+                selectedLength != null 
+                && 
+                selectedPlaydate != null 
+                && 
+                selectedPlaytime != null 
+                && 
+                selectedActors != null 
+                && 
+                selectedRoom != null
+            )
+            {
+                string newMovie = $"<screening><id>{XmlHandler.GetNextId()}</id><title>{selectedTitle}</title><director>{selectedDirector}</director><actors>{selectedActors}</actors><length>{selectedLength}</length><playdate>{selectedPlaydate}</playdate><playtime>{selectedPlaytime}</playtime><room>{selectedRoom}</room></screening>";
+                XElement movie = XElement.Parse(newMovie);
+                XmlHandler.AddNewScreening(movie);
+                MessageBox.Show("Movie added!");
+                AppendDefaultValuesToCBoxes();
+            }
+            else
+            {
+                MessageBox.Show("Please fill out all fields!");
+            }
         }
     }
 }

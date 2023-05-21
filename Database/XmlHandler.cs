@@ -70,6 +70,26 @@ namespace Cinema
             }
         }
 
+        public static int GetNextId()
+        {
+            int currIdCount = xmltree.Descendants("screening").Descendants("id").Count();
+            return currIdCount + 1;
+        }
+
+        public static void AddNewScreening(XElement movie)
+        {
+            XElement screeningElement = xmltree.Element("schedule");
+            if (screeningElement != null)
+            {
+                //XElement newScreening = new ("screening", new XElement("id", GetNextId()), movie);
+                screeningElement.Add(movie);
+
+                xmltree.Save(PATH);
+                Console.WriteLine("Screening added successfully.");
+            }
+            LoadXmlHandler();
+        }
+
         public static void WriteElement(XElement element)
         {
             xmltree.Add(element);

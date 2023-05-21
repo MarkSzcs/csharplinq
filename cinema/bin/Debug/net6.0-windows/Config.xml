@@ -42,6 +42,17 @@
       <playtime>14:00</playtime>
       <room>asfasf</room>
     </screening>
+    </screening>
+    <screening>
+      <id>5</id>
+      <title>Batman Begins</title>
+      <director>Christopher Nolan</director>
+      <actors></actors>
+      <length>120</length>
+      <playdate>2023. 12. 31</playdate>
+      <playtime>22:00</playtime>
+      <room>2</room>
+    </screening>
   </schedule>
   <rooms>
     <room>
