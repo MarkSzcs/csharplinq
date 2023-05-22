@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  <viewmode>admin</viewmode>
+  <viewmode>normal</viewmode>
   <schedule>
     <screening>
       <id>1</id>
@@ -42,7 +42,6 @@
       <playtime>14:00</playtime>
       <room>asfasf</room>
     </screening>
-    </screening>
     <screening>
       <id>5</id>
       <title>Batman Begins</title>
@@ -69,16 +68,16 @@
   <orders>
     <order>
       <id>1</id>
-      <room>1</room>
       <movieid>1</movieid>
       <seats>
-        <row>3</row>
-        <col>3</col>
+        <seat>
+          <row>3</row>
+          <col>3</col>
+        </seat>
       </seats>
     </order>
     <order>
       <id>2</id>
-      <room>2</room>
       <movieid>2</movieid>
       <seats>
         <seat>
@@ -100,6 +99,54 @@
         <seat>
           <row>3</row>
           <col>3</col>
+        </seat>
+      </seats>
+    </order>
+    <order>
+      <id>3</id>
+      <movieid>1</movieid>
+      <seats>
+        <seat>
+          <row>5</row>
+          <col>1</col>
+        </seat>
+        <seat>
+          <row>5</row>
+          <col>5</col>
+        </seat>
+        <seat>
+          <row>5</row>
+          <col>3</col>
+        </seat>
+        <seat>
+          <row>5</row>
+          <col>4</col>
+        </seat>
+        <seat>
+          <row>5</row>
+          <col>2</col>
+        </seat>
+      </seats>
+    </order>
+    <order>
+      <id>4</id>
+      <movieid>5</movieid>
+      <seats>
+        <seat>
+          <row>5</row>
+          <col>5</col>
+        </seat>
+        <seat>
+          <row>5</row>
+          <col>3</col>
+        </seat>
+        <seat>
+          <row>5</row>
+          <col>4</col>
+        </seat>
+        <seat>
+          <row>5</row>
+          <col>2</col>
         </seat>
       </seats>
     </order>

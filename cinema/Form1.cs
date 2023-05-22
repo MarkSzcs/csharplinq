@@ -35,6 +35,7 @@ namespace Cinema
                 adminModyfyCBox.SelectedItem = DEFAULTADMINCBOXTEXT;
             }
             AppendDefaultValuesToCBoxes();
+            ToggleAllCheckboxes(false);
         }
 
         private void HandleTitleChange()
@@ -68,6 +69,7 @@ namespace Cinema
                     }
                 }
             }
+            ToggleAllCheckboxes(false);
         }
 
         private void HandleDateChange()
@@ -75,7 +77,7 @@ namespace Cinema
             listBox1.Items.Clear();
 
             IEnumerable<XElement> schedule = XmlHandler.ReadDescendants("schedule").Descendants();
-            string selectedDate = dateCBox.SelectedItem.ToString(); 
+            string selectedDate = dateCBox.SelectedItem.ToString();
 
             if (selectedDate != null)
             {
@@ -101,6 +103,7 @@ namespace Cinema
                     }
                 }
             }
+            ToggleAllCheckboxes(false);
         }
 
         private void AppendDefaultValuesToCBoxes()
@@ -154,10 +157,6 @@ namespace Cinema
         {
             HandleTitleChange();
         }
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
         private void dateCBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             HandleDateChange();
@@ -177,7 +176,7 @@ namespace Cinema
             else
             {
                 XElement movieToReplace = XElement.Parse(adminModyfyCBox.SelectedItem.ToString());
-                if(movieToReplace != null)
+                if (movieToReplace != null)
                 {
                     ModifyMovie(movieToReplace);
                 }
@@ -190,7 +189,7 @@ namespace Cinema
 
         private void ModifyMovie(XElement movieToReplace)
         {
-            if(adminModyfyCBox.SelectedItem.ToString() != DEFAULTADMINCBOXTEXT)
+            if (adminModyfyCBox.SelectedItem.ToString() != DEFAULTADMINCBOXTEXT)
             {
                 string selectedId = adminModyfyCBox.SelectedItem.ToString().Split("<id>")[1].Split("</id>")[0];
                 string selectedTitle = adminTitleTBox.Text;
@@ -201,18 +200,18 @@ namespace Cinema
                 string oldActors = adminModyfyCBox.SelectedItem.ToString().Split("<actors>")[1].Split("</actors")[0];
                 string selectedRoom = adminRoomTBox.Text;
 
-                if 
+                if
                 (
-                    selectedTitle != null 
-                    && 
-                    selectedDirector != null 
-                    && 
-                    selectedLength != null 
-                    && 
-                    selectedPlaydate != null 
-                    && 
-                    selectedPlaytime != null 
-                    && 
+                    selectedTitle != null
+                    &&
+                    selectedDirector != null
+                    &&
+                    selectedLength != null
+                    &&
+                    selectedPlaydate != null
+                    &&
+                    selectedPlaytime != null
+                    &&
                     selectedRoom != null
                 )
                 {
@@ -243,24 +242,24 @@ namespace Cinema
             string selectedActors = "";
             string selectedRoom = adminRoomTBox.Text;
 
-            if 
+            if
             (
-                selectedTitle != null 
-                && 
-                selectedDirector != null 
-                && 
-                selectedLength != null 
-                && 
-                selectedPlaydate != null 
-                && 
-                selectedPlaytime != null 
-                && 
-                selectedActors != null 
-                && 
+                selectedTitle != null
+                &&
+                selectedDirector != null
+                &&
+                selectedLength != null
+                &&
+                selectedPlaydate != null
+                &&
+                selectedPlaytime != null
+                &&
+                selectedActors != null
+                &&
                 selectedRoom != null
             )
             {
-                string newMovie = $"<screening><id>{XmlHandler.GetNextId()}</id><title>{selectedTitle}</title><director>{selectedDirector}</director><actors>{selectedActors}</actors><length>{selectedLength}</length><playdate>{selectedPlaydate}</playdate><playtime>{selectedPlaytime}</playtime><room>{selectedRoom}</room></screening>";
+                string newMovie = $"<screening><id>{XmlHandler.GetNextScreeningId()}</id><title>{selectedTitle}</title><director>{selectedDirector}</director><actors>{selectedActors}</actors><length>{selectedLength}</length><playdate>{selectedPlaydate}</playdate><playtime>{selectedPlaytime}</playtime><room>{selectedRoom}</room></screening>";
                 XElement movie = XElement.Parse(newMovie);
                 XmlHandler.AddNewScreening(movie);
                 MessageBox.Show("Movie added!");
@@ -269,6 +268,122 @@ namespace Cinema
             else
             {
                 MessageBox.Show("Please fill out all fields!");
+            }
+        }
+
+        private int[] GetIndexOfCheckbox(string nameOfCheckbox) 
+        {
+            string[] parts = nameOfCheckbox.Split('_');
+            return new int[] { int.Parse(parts[^2]), int.Parse(parts[^1]) };
+           
+        }
+
+        private IEnumerable<CheckBox> GetCheckBoxes()
+        {
+            return Controls.OfType<CheckBox>();
+        }
+
+        private void ToggleAllCheckboxes(bool value)
+        {
+            IEnumerable<CheckBox> checkBoxes = GetCheckBoxes();
+            foreach (var item in checkBoxes)
+            {
+                item.Checked = false;
+                item.Enabled = value;
+            }
+        }
+
+        private string ConstructCheckboxName(int row, int seat)
+        {
+            return $"box_{row}_{seat}";
+        }
+
+        private XElement GetScreeningByTitleAndDateAndTime(string title, string date, string time)
+        {
+            IEnumerable<XElement> screenings = XmlHandler.ReadDescendants("screening");
+            foreach (var item in screenings)
+            {
+                if (item.Element("title").Value == title && item.Element("playdate").Value == date && item.Element("playtime").Value == time)
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        private void orderButton_Click(object sender, EventArgs e)
+        {
+            //check the seats that are selected and not disabled and modify the order xml accordingly, show a message box with success or failure
+            string title = titleCBox.SelectedItem.ToString();
+            string date = dateCBox.SelectedItem.ToString();
+            string time = timeCBox.SelectedItem.ToString();
+            XElement screening = GetScreeningByTitleAndDateAndTime(title, date, time);
+            int screeningId = int.Parse(screening.Element("id").Value);
+            int newOrderId = XmlHandler.GetNextOrderId(); 
+            if (screening != null)
+            {
+                string seatsString = $"<seats>";
+                IEnumerable<XElement> orders = XmlHandler.ReadDescendants("order");
+                IEnumerable<CheckBox> intendedOrders = GetCheckBoxes().Where(x => x.Checked == true && x.Enabled == true);
+                if (intendedOrders.Count() > 0)
+                {
+                    foreach (var order in intendedOrders)
+                    {
+                        int[] indexes = GetIndexOfCheckbox(order.Name);
+                        string intendedSeatString = $"<seat><row>{indexes[0]}</row><col>{indexes[1]}</col></seat>";
+                        seatsString += intendedSeatString;
+                    }
+                    seatsString += "</seats>";
+                    MessageBox.Show("Order successful!");
+                    string newOrder = $"<order><id>{newOrderId}</id><movieid>{screeningId}</movieid>{seatsString}</order>";
+                    MessageBox.Show(newOrder);
+                    XmlHandler.AddNewOrder(XElement.Parse(newOrder));
+                    ToggleAllCheckboxes(false);
+                }
+                else
+                {
+                    MessageBox.Show("Please select at least one seat!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a screening!");
+            }
+        }
+
+        private void checkSeatsButton_Click(object sender, EventArgs e)
+        {
+            ToggleAllCheckboxes(true);
+            string title = titleCBox.SelectedItem.ToString();
+            string date = dateCBox.SelectedItem.ToString();
+            string time = timeCBox.SelectedItem.ToString();
+            XElement screening = GetScreeningByTitleAndDateAndTime(title, date, time);
+            //MessageBox.Show(screening.ToString());
+            if (screening != null)
+            {
+                IEnumerable<XElement> orders = XmlHandler.ReadDescendants("order");
+                foreach (XElement item in orders)
+                {
+                    if (item.Element("movieid").Value == screening.Element("id").Value)
+                    {
+                        //MessageBox.Show(item.ToString());
+                        IEnumerable<XElement> itemAsSeats = item.Descendants("seat");
+                        foreach (var seat in itemAsSeats)
+                        {
+                            //MessageBox.Show(seat.ToString());
+                            int row = int.Parse(seat.Element("row").Value);
+                            int col = int.Parse(seat.Element("col").Value);
+                            string checkboxName = ConstructCheckboxName(row, col);
+                            CheckBox checkbox = Controls.Find(checkboxName, true).FirstOrDefault() as CheckBox;
+                            checkbox.Checked = true;
+                            checkbox.Enabled = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No screening found!");
             }
         }
     }

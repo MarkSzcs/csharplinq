@@ -70,9 +70,15 @@ namespace Cinema
             }
         }
 
-        public static int GetNextId()
+        public static int GetNextScreeningId()
         {
             int currIdCount = xmltree.Descendants("screening").Descendants("id").Count();
+            return currIdCount + 1;
+        }
+
+        public static int GetNextOrderId()
+        {
+            int currIdCount = xmltree.Descendants("order").Descendants("id").Count();
             return currIdCount + 1;
         }
 
@@ -83,9 +89,20 @@ namespace Cinema
             {
                 //XElement newScreening = new ("screening", new XElement("id", GetNextId()), movie);
                 screeningElement.Add(movie);
-
                 xmltree.Save(PATH);
-                Console.WriteLine("Screening added successfully.");
+                //Console.WriteLine("Screening added successfully.");
+            }
+            LoadXmlHandler();
+        }
+
+        public static void AddNewOrder(XElement order)
+        {
+            XElement ordersElement = xmltree.Element("orders");
+            if (ordersElement != null)
+            {
+                ordersElement.Add(order);
+                xmltree.Save(PATH);
+                //Console.WriteLine("Seat added successfully.");
             }
             LoadXmlHandler();
         }
