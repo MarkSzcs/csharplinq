@@ -318,10 +318,10 @@ namespace Cinema
             string date = dateCBox.SelectedItem.ToString();
             string time = timeCBox.SelectedItem.ToString();
             XElement screening = GetScreeningByTitleAndDateAndTime(title, date, time);
-            int screeningId = int.Parse(screening.Element("id").Value);
-            int newOrderId = XmlHandler.GetNextOrderId(); 
             if (screening != null)
             {
+                int screeningId = int.Parse(screening.Element("id").Value);
+                int newOrderId = XmlHandler.GetNextOrderId();
                 string seatsString = $"<seats>";
                 IEnumerable<XElement> orders = XmlHandler.ReadDescendants("order");
                 IEnumerable<CheckBox> intendedOrders = GetCheckBoxes().Where(x => x.Checked == true && x.Enabled == true);
@@ -348,6 +348,7 @@ namespace Cinema
             else
             {
                 MessageBox.Show("Please select a screening!");
+                ToggleAllCheckboxes(false);
             }
         }
 
@@ -384,6 +385,7 @@ namespace Cinema
             else
             {
                 MessageBox.Show("No screening found!");
+                ToggleAllCheckboxes(false);
             }
         }
     }
