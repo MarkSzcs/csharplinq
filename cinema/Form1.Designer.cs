@@ -92,6 +92,10 @@
             label23 = new Label();
             label24 = new Label();
             orderButton = new Button();
+            button1 = new Button();
+            textBox1 = new TextBox();
+            button2 = new Button();
+            label25 = new Label();
             SuspendLayout();
             // 
             // checkSeatsButton
@@ -663,11 +667,49 @@
             orderButton.UseVisualStyleBackColor = true;
             orderButton.Click += orderButton_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(355, 346);
+            button1.Name = "button1";
+            button1.Size = new Size(97, 23);
+            button1.TabIndex = 73;
+            button1.Text = "Check order";
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(355, 317);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(97, 23);
+            textBox1.TabIndex = 74;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(355, 257);
+            button2.Name = "button2";
+            button2.Size = new Size(99, 23);
+            button2.TabIndex = 76;
+            button2.Text = "Modify";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(355, 299);
+            label25.Name = "label25";
+            label25.Size = new Size(51, 15);
+            label25.TabIndex = 77;
+            label25.Text = "Order ID";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(867, 445);
+            Controls.Add(label25);
+            Controls.Add(button2);
+            Controls.Add(textBox1);
+            Controls.Add(button1);
             Controls.Add(orderButton);
             Controls.Add(label24);
             Controls.Add(label23);
@@ -805,5 +847,9 @@
         private Label label23;
         private Label label24;
         private Button orderButton;
+        private Button button1;
+        private TextBox textBox1;
+        private Button button2;
+        private Label label25;
     }
 }

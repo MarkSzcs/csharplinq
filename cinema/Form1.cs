@@ -36,6 +36,7 @@ namespace Cinema
             }
             AppendDefaultValuesToCBoxes();
             ToggleAllCheckboxes(false);
+            button2.Enabled = false;
         }
 
         private void HandleTitleChange()
@@ -271,11 +272,11 @@ namespace Cinema
             }
         }
 
-        private int[] GetIndexOfCheckbox(string nameOfCheckbox) 
+        private int[] GetIndexOfCheckbox(string nameOfCheckbox)
         {
             string[] parts = nameOfCheckbox.Split('_');
             return new int[] { int.Parse(parts[^2]), int.Parse(parts[^1]) };
-           
+
         }
 
         private IEnumerable<CheckBox> GetCheckBoxes()
@@ -334,9 +335,10 @@ namespace Cinema
                         seatsString += intendedSeatString;
                     }
                     seatsString += "</seats>";
-                    MessageBox.Show("Order successful!");
+                    string successMesage = $"Order successful!\nYour order id is: {newOrderId}!";
+                    MessageBox.Show(successMesage);
                     string newOrder = $"<order><id>{newOrderId}</id><movieid>{screeningId}</movieid>{seatsString}</order>";
-                    MessageBox.Show(newOrder);
+                    //MessageBox.Show(newOrder);
                     XmlHandler.AddNewOrder(XElement.Parse(newOrder));
                     ToggleAllCheckboxes(false);
                 }

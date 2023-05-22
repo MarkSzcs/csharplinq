@@ -1,0 +1,3 @@
+The form1.cs could look more compact.
+Admin statistics missing.
+The orders are showing up, but modifying and deleting the orders are missing.
